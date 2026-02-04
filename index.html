@@ -1,25 +1,979 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Smart Clip PRO</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Clip PRO - Intelligent Clipboard Manager | NDX Digital Solutions</title>
+  <meta name="description" content="Smart Clip PRO by NDX Digital Solutions: Advanced clipboard manager with AI suggestions, secure storage, Excel formula validation, SQL security checks. Developed by Navod Rajapaksha.">
+  <meta name="author" content="Navod Rajapaksha - NDX Digital Solutions">
+  <meta name="keywords" content="clipboard manager, productivity, smart clip, NDX Digital Solutions, Navod Rajapaksha">
+  <link rel="icon" type="image/png" href="assets/smartclip.png">
   <style>
-    body { font-family: Arial; background:#0f172a; color:white; text-align:center; padding:60px; }
-    .btn { background:#22c55e; color:black; padding:15px 30px; border-radius:10px; font-size:18px; text-decoration:none; }
-    .box { max-width:800px; margin:auto; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #f8fafc;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+      padding: 20px 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+    
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .logo-title {
+      font-size: 22px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .logo-subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    
+    nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    
+    nav a:hover {
+      color: #3b82f6;
+    }
+    
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 120px 0;
+      background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    }
+    
+    .hero-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #3b82f6;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+    
+    .hero h1 {
+      font-size: 64px;
+      font-weight: 800;
+      margin-bottom: 25px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInDown 0.8s ease-out 0.1s both;
+      line-height: 1.2;
+    }
+    
+    .hero .subtitle {
+      font-size: 28px;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+      font-weight: 300;
+    }
+    
+    .hero .description {
+      font-size: 18px;
+      color: #94a3b8;
+      max-width: 800px;
+      margin: 0 auto 50px;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+      line-height: 1.8;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease-out 0.6s both;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: 2px solid transparent;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 35px rgba(59, 130, 246, 0.6);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: #3b82f6;
+      border: 2px solid #3b82f6;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(59, 130, 246, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .developer-badge {
+      margin-top: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      color: #94a3b8;
+      font-size: 14px;
+      animation: fadeInUp 0.8s ease-out 0.8s both;
+    }
+    
+    .developer-badge img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 2px solid #3b82f6;
+    }
+    
+    .developer-info {
+      text-align: left;
+    }
+    
+    .developer-name {
+      font-weight: 600;
+      color: #cbd5e1;
+      font-size: 15px;
+    }
+    
+    .developer-title {
+      font-size: 13px;
+      color: #64748b;
+    }
+    
+    /* Stats Section */
+    .stats {
+      padding: 80px 0;
+      text-align: center;
+      background: rgba(30, 41, 59, 0.3);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 50px;
+      margin-top: 40px;
+    }
+    
+    .stat {
+      padding: 30px;
+    }
+    
+    .stat-number {
+      font-size: 56px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+    
+    .stat-label {
+      color: #94a3b8;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 120px 0;
+      background: rgba(15, 23, 42, 0.5);
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      font-size: 18px;
+      color: #94a3b8;
+      margin-bottom: 70px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 60px;
+    }
+    
+    .feature-card {
+      background: rgba(30, 41, 59, 0.6);
+      padding: 45px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: #3b82f6;
+      box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+      background: rgba(30, 41, 59, 0.8);
+    }
+    
+    .feature-card h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: #f8fafc;
+      font-weight: 600;
+    }
+    
+    .feature-card p {
+      color: #cbd5e1;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+    
+    /* Pricing Section */
+    .pricing {
+      padding: 120px 0;
+      background: rgba(30, 41, 59, 0.5);
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 35px;
+      margin-top: 60px;
+      max-width: 1150px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .pricing-card {
+      background: rgba(30, 41, 59, 0.7);
+      padding: 50px;
+      border-radius: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    .pricing-card.featured {
+      border-color: #3b82f6;
+      transform: scale(1.05);
+      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3);
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(59, 130, 246, 0.1));
+    }
+    
+    .pricing-badge {
+      position: absolute;
+      top: -15px;
+      right: 25px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    }
+    
+    .pricing-card h3 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #f8fafc;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .pricing-price-container {
+      margin: 30px 0;
+    }
+    
+    .pricing-price {
+      font-size: 64px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    
+    .pricing-period {
+      color: #94a3b8;
+      font-size: 16px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    
+    .original-price {
+      text-decoration: line-through;
+      color: #64748b;
+      font-size: 26px;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+    
+    .savings-badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 12px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    
+    .pricing-features {
+      list-style: none;
+      margin: 40px 0;
+      text-align: left;
+    }
+    
+    .pricing-features li {
+      padding: 16px 0;
+      color: #cbd5e1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 15px;
+    }
+    
+    .pricing-features li:before {
+      content: "✓";
+      color: #10b981;
+      font-weight: bold;
+      margin-right: 12px;
+      font-size: 18px;
+    }
+    
+    .pricing-features li strong {
+      color: #f8fafc;
+    }
+    
+    /* Download Section */
+    .download {
+      padding: 120px 0;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    }
+    
+    .download-box {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(30, 41, 59, 0.7);
+      padding: 70px 60px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+    
+    .version-info {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+      padding: 10px 24px;
+      border-radius: 25px;
+      font-size: 13px;
+      margin-bottom: 30px;
+      font-weight: 700;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Footer */
+    footer {
+      padding: 80px 0 40px;
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+    
+    .footer-section h4 {
+      margin-bottom: 25px;
+      color: #f8fafc;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .footer-section ul {
+      list-style: none;
+    }
+    
+    .footer-section ul li {
+      margin-bottom: 14px;
+    }
+    
+    .footer-section a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 15px;
+    }
+    
+    .footer-section a:hover {
+      color: #3b82f6;
+    }
+    
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    
+    .footer-brand img {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+    }
+    
+    .footer-brand-text h4 {
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+    
+    .footer-brand-text p {
+      color: #64748b;
+      font-size: 13px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    
+    .footer-about {
+      color: #94a3b8;
+      line-height: 1.8;
+      margin-bottom: 25px;
+      font-size: 15px;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+    
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 8px;
+      color: #3b82f6;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .social-link:hover {
+      background: rgba(59, 130, 246, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #64748b;
+    }
+    
+    .footer-bottom-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-bottom-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    
+    .footer-bottom-links a:hover {
+      color: #3b82f6;
+    }
+    
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 40px;
+      }
+      
+      .hero .subtitle {
+        font-size: 22px;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .features-grid,
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .pricing-card.featured {
+        transform: scale(1);
+      }
+      
+      nav {
+        display: none;
+      }
+      
+      .logo-img {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .logo-title {
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>🚀 Smart Clip PRO</h1>
-    <p>Smart clipboard manager with secure storage, AI suggestions, and productivity tools.</p>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo-container">
+          <img src="assets/smartclip.png" alt="Smart Clip PRO Logo" class="logo-img">
+          <div class="logo-text">
+            <div class="logo-title">Smart Clip PRO</div>
+            <div class="logo-subtitle">by NDX Digital Solutions</div>
+          </div>
+        </div>
+        <nav>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#download">Download</a>
+          <a href="mailto:nr26info@gmail.com">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </header>
 
-    <a class="btn" href="downloads/SmartClipPRO_2.0.1.exe">
-      ⬇ Download for Windows
-    </a>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Developed by NDX Digital Solutions</div>
+      <h1>Smart Clip PRO</h1>
+      <p class="subtitle">Intelligent Clipboard Manager for Windows</p>
+      <p class="description">
+        Advanced productivity tool featuring AI-powered clipboard management, military-grade encryption, 
+        Excel formula validation, SQL security scanning, and intelligent context-aware suggestions. 
+        Professional clipboard management built for power users.
+      </p>
+      <div class="cta-buttons">
+        <a href="#download" class="btn btn-primary">Download Now</a>
+        <a href="#features" class="btn btn-secondary">View Features</a>
+      </div>
+      <div class="developer-badge">
+        <img src="assets/nr26_logo.png" alt="NDX Digital Solutions">
+        <div class="developer-info">
+          <div class="developer-name">Navod Rajapaksha</div>
+          <div class="developer-title">Founder & Lead Developer</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <p style="margin-top:40px;">
-      Free trial • Premium unlock • Fast • Secure
-    </p>
-  </div>
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-number">3x</div>
+          <div class="stat-label">Faster Performance</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">92%</div>
+          <div class="stat-label">Accuracy Rate</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">App Integrations</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">15+</div>
+          <div class="stat-label">Transformations</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">Enterprise Features</h2>
+      <p class="section-subtitle">
+        Professional-grade tools for intelligent clipboard management and productivity enhancement
+      </p>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Smart Memory System</h3>
+          <p>AI-powered clipboard history with intelligent pattern recognition. Quick access to frequently used content via Ctrl+1-9 keyboard shortcuts.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>Excel Formula Validator</h3>
+          <p>Professional-grade validation with 20+ error detection rules. Automated syntax checking, performance optimization suggestions, and formula debugging.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>SQL Security Scanner</h3>
+          <p>Advanced SQL injection pattern detection, query validation, and intelligent formatting with three output styles: readable, compact, and minified.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>Encrypted Storage</h3>
+          <p>Military-grade AES-256 encryption for sensitive data. Secure storage for passwords, API keys, tokens, and confidential information.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>Context Intelligence</h3>
+          <p>Application-aware suggestions with support for 50+ software platforms. Automatic detection of security risks including exposed credentials and API keys.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>Text Processing Suite</h3>
+          <p>25+ transformation utilities including email extraction, link parsing, case conversion, line numbering, duplicate removal, and advanced text manipulation.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>Advanced Search Engine</h3>
+          <p>Real-time search with intelligent filtering. Type-based categorization, usage-based sorting, and instant content discovery.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>Professional Interface</h3>
+          <p>Modern UI with 60 FPS animations, adaptive theming, color-coded feedback system, and customizable workspace layouts.</p>
+        </div>
+        
+        <div class="feature-card">
+          <h3>Intelligent Retention</h3>
+          <p>Automated cleanup with customizable retention policies. Permanent pinning for critical content, automatic expiration for temporary data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <h2 class="section-title">Transparent Pricing</h2>
+      <p class="section-subtitle">
+        Professional tools at accessible prices. Start free, upgrade for advanced features.
+      </p>
+      
+      <div class="pricing-grid">
+        <!-- Free Plan -->
+        <div class="pricing-card">
+          <h3>Free</h3>
+          <div class="pricing-price-container">
+            <div class="pricing-price">$0</div>
+            <div class="pricing-period">Forever Free</div>
+          </div>
+          <ul class="pricing-features">
+            <li>Unlimited clipboard history</li>
+            <li>Smart memory shortcuts</li>
+            <li>Mini clipboard interface</li>
+            <li>Basic text transformations</li>
+            <li>Search and filter system</li>
+            <li>Auto-refresh capability</li>
+            <li>Windows desktop application</li>
+          </ul>
+          <a href="#download" class="btn btn-secondary" style="width: 100%; justify-content: center;">Get Started</a>
+        </div>
+        
+        <!-- Premium Plan - Featured -->
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Limited Offer</div>
+          <h3>Premium Annual</h3>
+          <div class="pricing-price-container">
+            <div class="pricing-price">$14.99</div>
+            <div class="pricing-period">per year</div>
+            <div class="original-price">Regular Price: $19.00</div>
+            <div class="savings-badge">Save $4.01 (21% Discount)</div>
+          </div>
+          <ul class="pricing-features">
+            <li><strong>All Free features, plus:</strong></li>
+            <li>Encrypted secure locker</li>
+            <li>Excel formula validator (20+ rules)</li>
+            <li>SQL security scanner</li>
+            <li>Advanced transformations (25+ tools)</li>
+            <li>API key and credential detection</li>
+            <li>Priority email support</li>
+            <li>Lifetime software updates</li>
+            <li>Commercial usage license</li>
+          </ul>
+          <a href="#download" class="btn btn-primary" style="width: 100%; justify-content: center;">Upgrade Now</a>
+        </div>
+        
+        <!-- Enterprise Plan -->
+        <div class="pricing-card">
+          <h3>Enterprise</h3>
+          <div class="pricing-price-container">
+            <div class="pricing-price">Custom</div>
+            <div class="pricing-period">Contact for Quote</div>
+          </div>
+          <ul class="pricing-features">
+            <li><strong>All Premium features, plus:</strong></li>
+            <li>Team collaboration tools</li>
+            <li>Cloud synchronization</li>
+            <li>Custom integration support</li>
+            <li>SSO authentication</li>
+            <li>Dedicated technical support</li>
+            <li>Professional onboarding</li>
+            <li>Usage analytics dashboard</li>
+            <li>Volume licensing options</li>
+          </ul>
+          <a href="mailto:nr26info@gmail.com?subject=Enterprise%20Inquiry" class="btn btn-secondary" style="width: 100%; justify-content: center;">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Section -->
+  <section class="download" id="download">
+    <div class="container">
+      <div class="download-box">
+        <span class="version-info">Version 2.0.2</span>
+        <h2 style="font-size: 42px; margin: 30px 0; line-height: 1.3; font-weight: 700;">Enhance Your Productivity Today</h2>
+        <p style="color: #94a3b8; margin-bottom: 50px; font-size: 18px; line-height: 1.8;">
+          Download Smart Clip PRO for Windows and experience professional clipboard management.
+          <br><strong style="color: #cbd5e1;">Free trial included. No credit card required.</strong>
+        </p>
+        <a href="downloads/SmartClipPRO_2.0.0.exe" class="btn btn-primary" style="font-size: 18px; padding: 22px 50px;">
+          Download for Windows
+        </a>
+        <p style="color: #64748b; margin-top: 40px; font-size: 14px;">
+          Windows 10/11 (64-bit) • 32MB Download Size • Instant Installation
+        </p>
+        <p style="color: #64748b; margin-top: 12px; font-size: 13px;">
+          Developed by <strong style="color: #94a3b8;">Navod Rajapaksha</strong> • NDX Digital Solutions
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <!-- Brand Section -->
+        <div class="footer-section">
+          <div class="footer-brand">
+            <img src="assets/smartclip.png" alt="Smart Clip PRO">
+            <div class="footer-brand-text">
+              <h4>Smart Clip PRO</h4>
+              <p>NDX Digital Solutions</p>
+            </div>
+          </div>
+          <p class="footer-about">
+            Professional clipboard management software for Windows. 
+            Built with precision engineering to deliver enterprise-grade productivity tools 
+            with military-grade security.
+          </p>
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/navod-rajapaksha-5592bb240" target="_blank" class="social-link" title="LinkedIn" aria-label="LinkedIn Profile">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </a>
+            <a href="mailto:nr26info@gmail.com" class="social-link" title="Email" aria-label="Email Contact">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Product Links -->
+        <div class="footer-section">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#download">Download</a></li>
+            <li><a href="docs.html">Documentation</a></li>
+            <li><a href="changelog.html">Changelog</a></li>
+          </ul>
+        </div>
+        
+        <!-- Support Links -->
+        <div class="footer-section">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="help.html">Help Center</a></li>
+            <li><a href="mailto:nr26info@gmail.com">Technical Support</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="tutorials.html">Tutorials</a></li>
+          </ul>
+        </div>
+        
+        <!-- Company Links -->
+        <div class="footer-section">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About NDX Digital</a></li>
+            <li><a href="https://www.linkedin.com/in/navod-rajapaksha-5592bb240" target="_blank">Developer Profile</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="license.html">License Agreement</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 Smart Clip PRO by <strong>NDX Digital Solutions</strong>. All rights reserved.</p>
+        <p style="margin-top: 10px; font-size: 13px;">
+          Developed by <a href="https://www.linkedin.com/in/navod-rajapaksha-5592bb240" target="_blank" style="color: #3b82f6;">Navod Rajapaksha</a>
+        </p>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="license.html">License</a>
+          <a href="mailto:nr26info@gmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
